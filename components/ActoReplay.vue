@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-5xl mx-auto bg-white rounded-3xl p-4 md:p-8 shadow-sm text-center">
+  <div class="w-11/12 max-w-[95rem] mx-auto bg-white rounded-3xl p-4 md:p-8 shadow-sm text-center">
     <div class="mb-4 md:mb-8">
       <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
          <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -27,7 +27,7 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
       <PinGrid 
         v-if="currentTab === 'gallery'"
-        :images="images" 
+        :images="displayedImages" 
         @open="showImg" 
         @download="handleDownload" 
       />
@@ -76,6 +76,28 @@ const images = ref(
     }
   })
 )
+
+// Pagination / Infinite Scroll Logic
+const displayedImages = ref([])
+const pageSize = 20
+
+const loadMore = () => {
+  const currentLength = displayedImages.value.length
+  if (currentLength >= images.value.length) return
+
+  const nextBatch = images.value.slice(currentLength, currentLength + pageSize)
+  displayedImages.value.push(...nextBatch)
+}
+
+import { useInfiniteScroll } from '@vueuse/core'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  loadMore()
+  useInfiniteScroll(window, () => {
+    loadMore()
+  }, { distance: 500 })
+})
 
 const visibleRef = ref(false)
 const indexRef = ref(0)
