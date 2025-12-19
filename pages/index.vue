@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gray-50 text-gray-800 font-sans">
-    <SpeedInsights />
     <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col items-center gap-4">
         <h1 class="text-2xl font-bold tracking-tight text-blue-600">Promo XL - 2025 🎓 IUJO</h1>
@@ -70,7 +69,6 @@ import PinGrid from '../components/PinGrid.vue'
 import ActoReplay from '../components/ActoReplay.vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { rawPhotos } from '../const/ID_fotos'
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 
 const getDriveUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=s1000?authuser=0`
