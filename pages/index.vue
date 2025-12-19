@@ -21,6 +21,22 @@
             Repetición Acto
           </button>
         </nav>
+
+        <div v-if="currentTab === 'gallery'" class="w-full max-w-7xl overflow-x-auto pb-2">
+           <div class="flex justify-center gap-2 min-w-max px-2">
+              <button 
+                v-for="cat in uniqueCategories" 
+                :key="cat"
+                @click="selectCategory(cat)"
+                :class="['px-4 py-1.5 rounded-full text-sm border transition-colors',
+                  selectedCategory === cat 
+                    ? 'bg-blue-600 text-white border-blue-600' 
+                    : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50']"
+              >
+                {{ cat }}
+              </button>
+           </div>
+        </div>
       </div>
     </header>
 
@@ -38,7 +54,7 @@
     <ClientOnly>
       <VueEasyLightbox
         :visible="visibleRef"
-        :imgs="images.map(i => i.src)"
+        :imgs="allFilteredImages.map(i => i.src)" 
         :index="indexRef"
         @hide="onHide"
       />
@@ -48,49 +64,63 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
+import { useInfiniteScroll } from '@vueuse/core'
 import PinGrid from '../components/PinGrid.vue'
 import ActoReplay from '../components/ActoReplay.vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
+import { rawPhotos } from '../const/ID_fotos' 
 
-// State
-const currentTab = ref('gallery')
 
-const imageFiles = import.meta.glob('../public/imagenes/*.{jpg,jpeg,png,webp,gif}', {
-  eager: true,
-  query: '?url',
+const getDriveUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=s1000?authuser=0`
+
+const allImages = rawPhotos.map((item, index) => ({
+  id: index,
+  driveId: item.id,
+  src: getDriveUrl(item.id),
+  category: item.cat,
+  title: `Foto ${item.cat} ${index + 1}`
+}))
+
+const selectedCategory = ref('Todas')
+
+const uniqueCategories = computed(() => {
+  const cats = new Set(allImages.map(img => img.category))
+  return ['Todas', ...cats]
 })
 
-const images = ref(
-  Object.keys(imageFiles).map((path, index) => {
-    const filename = path.split('/').pop()
-    const title = filename.split('.')[0]
-      .split(/[-_]/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ')
+const allFilteredImages = computed(() => {
+  if (selectedCategory.value === 'Todas') {
+    return allImages
+  }
+  return allImages.filter(img => img.category === selectedCategory.value)
+})
 
-    return {
-      id: index, // Simple index ID
-      src: `/imagenes/${filename}`,
-      title: title
-    }
-  })
-)
+const selectCategory = (cat) => {
+  selectedCategory.value = cat
+  displayedImages.value = []
+  loadMore()
+}
 
-// Pagination / Infinite Scroll Logic
+const currentTab = ref('gallery')
+
 const displayedImages = ref([])
-const pageSize = 20
+const pageSize = 25
 
 const loadMore = () => {
   const currentLength = displayedImages.value.length
-  if (currentLength >= images.value.length) return
+  const sourceList = allFilteredImages.value 
+  
+  if (currentLength >= sourceList.length) return
 
-  const nextBatch = images.value.slice(currentLength, currentLength + pageSize)
+  const nextBatch = sourceList.slice(currentLength, currentLength + pageSize)
   displayedImages.value.push(...nextBatch)
 }
 
-import { useInfiniteScroll } from '@vueuse/core'
-import { onMounted } from 'vue'
+watch(allFilteredImages, () => {
+  displayedImages.value = []
+  loadMore()
+})
 
 onMounted(() => {
   loadMore()
@@ -102,35 +132,25 @@ onMounted(() => {
 const visibleRef = ref(false)
 const indexRef = ref(0)
 
-const showImg = (index) => {
-  indexRef.value = index
+const showImg = (indexInDisplayed) => {
+  const imgClicked = displayedImages.value[indexInDisplayed]
+  const realIndex = allFilteredImages.value.findIndex(img => img.id === imgClicked.id)
+  
+  indexRef.value = realIndex
   visibleRef.value = true
 }
 
 const onHide = () => visibleRef.value = false
 
-// Download Handler
-const handleDownload = async (img) => {
-  try {
-    const response = await fetch(img.src);
-    const blob = await response.blob();
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Foto Promo XL - 2025 - ${img.title || 'download'}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } catch (error) {
-    console.error('Error al descargar:', error);
-    window.open(img.src, '_blank');
-  }
+const handleDownload = (img) => {
+  const downloadLink = `https://drive.google.com/uc?export=download&id=${img.driveId}`
+  window.open(downloadLink, '_blank')
 }
 </script>
 
 <style>
-/* Personalizar scrollbar */
 html, body {
-  background-color: #f9fafb; /* bg-gray-50 matches */
+  background-color: #f9fafb; 
   min-height: 100vh;
 }
 ::-webkit-scrollbar {
