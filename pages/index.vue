@@ -1,11 +1,10 @@
 <template>
   <div class="min-h-screen bg-gray-50 text-gray-800 font-sans">
-    <SpeedInsights />
     <header class="bg-white shadow-sm sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col items-center gap-4">
-        <h1 class="text-2xl font-bold tracking-tight text-blue-600">Promo XL - 2025 🎓 IUJO</h1>
+        <h1 class="text-2xl font-bold tracking-tight text-blue-600 min-h-[2rem]">Promo XL - 2025 🎓 IUJO</h1>
         
-        <nav class="flex p-1 space-x-1 bg-gray-100/80 rounded-xl">
+        <nav class="flex p-1 space-x-1 bg-gray-100/80 rounded-xl min-h-[44px]">
           <button 
             @click="currentTab = 'gallery'"
             :class="['px-6 py-2.5 text-sm font-medium rounded-lg transition-all duration-200', 
@@ -22,7 +21,7 @@
           </button>
         </nav>
 
-        <div v-if="currentTab === 'gallery'" class="w-full max-w-7xl overflow-x-auto pb-2">
+        <div v-if="currentTab === 'gallery'" class="w-full max-w-7xl overflow-x-auto pb-2 min-h-[50px]">
            <div class="flex justify-center gap-2 min-w-max px-2">
               <button 
                 v-for="cat in uniqueCategories" 
@@ -60,6 +59,7 @@
       />
     </ClientOnly>
 
+    <SpeedInsights />
   </div>
 </template>
 

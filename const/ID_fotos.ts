@@ -970,7 +970,6 @@ export const rawPhotos = [
 { id: '19Xc6O8_ZsU_X3eAEQ5mPJ67xyF7b3im9', cat: 'Clase Magistral', title: 'DSC 0133' },
 { id: '1lc3pEtBIUPS4kbm0l09mpVMEFVUiHFga', cat: 'Clase Magistral', title: 'DSC 0131' },
 { id: '13L-9py_mkpydTbb-y4UYCf9eZ4GvPDoA', cat: 'Clase Magistral', title: 'DSC 0130' },
-{ id: '1_8Gubfr-fiFkuv4c7v8k15w7UO4zMF75', cat: 'Clase Magistral', title: 'DSC 0120' },
 { id: '1jTIp8LgLQjZVXTppmhM1gXKpkxv_rQXX', cat: 'Clase Magistral', title: 'DSC 0119' },
 { id: '1iDdG4nMPRY6km2IViKJ3gfWCMdj1kWXa', cat: 'Clase Magistral', title: 'DSC 0118' },
 { id: '15sSu9rcYMmLgnCsjflDVq2oLrBkh3Vvf', cat: 'Clase Magistral', title: 'DSC 0116' },
