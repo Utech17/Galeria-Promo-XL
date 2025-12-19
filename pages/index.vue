@@ -54,7 +54,7 @@
     <ClientOnly>
       <VueEasyLightbox
         :visible="visibleRef"
-        :imgs="allFilteredImages.map(i => i.src)" 
+        :imgs="allFilteredImages.map(i => i.originalSrc)" 
         :index="indexRef"
         @hide="onHide"
       />
@@ -73,12 +73,15 @@ import { rawPhotos } from '../const/ID_fotos'
 import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 
-const getDriveUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=s1000?authuser=0`
+// Función auxiliar para convertir ID de Drive a URL
+const getDriveThumbnail = (id) => `https://lh3.googleusercontent.com/d/${id}=s500?authuser=0`
+const getDriveFull = (id) => `https://lh3.googleusercontent.com/d/${id}=s1600?authuser=0`
 
 const allImages = rawPhotos.map((item, index) => ({
   id: index,
   driveId: item.id,
-  src: getDriveUrl(item.id),
+  src: getDriveThumbnail(item.id),     // Versión optimizada para el grid
+  originalSrc: getDriveFull(item.id),  // Versión alta calidad para lightbox
   category: item.cat,
   title: `Foto ${item.cat} ${index + 1}`
 }))

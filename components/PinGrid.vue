@@ -6,7 +6,7 @@
       class="break-inside-avoid mb-4 relative group"
       @click="$emit('open', index)"
     >
-      <div class="cursor-zoom-in rounded-2xl overflow-hidden relative border border-gray-200">
+      <div class="cursor-zoom-in rounded-2xl overflow-hidden relative border border-gray-200 bg-gray-100 min-h-[150px]">
          <NuxtImg 
            :src="img.src" 
            class="w-full h-auto object-cover transform transition duration-300 hover:brightness-75"
