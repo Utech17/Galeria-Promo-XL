@@ -70,7 +70,6 @@ import PinGrid from '../components/PinGrid.vue'
 import ActoReplay from '../components/ActoReplay.vue'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import { rawPhotos } from '../const/ID_fotos'
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 
 
 // Función auxiliar para convertir ID de Drive a URL
