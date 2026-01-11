@@ -36,6 +36,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: 'Promo XL - 2025 🎓 IUJO',
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
